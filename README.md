@@ -1,1 +1,1 @@
-You know the sponge likes fun!
+Star keep shining
