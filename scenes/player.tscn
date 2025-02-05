@@ -1,7 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://ctesrtp62l86v"]
+[gd_scene load_steps=9 format=3 uid="uid://ctesrtp62l86v"]
 
 [ext_resource type="Texture2D" uid="uid://bng4vyqgvapxv" path="res://assets/sprites/player/player-spritesheet.png" id="1_thhgg"]
 [ext_resource type="Script" path="res://scripts/player/player.gd" id="1_u4d0u"]
+[ext_resource type="AudioStream" uid="uid://d252vc54i185v" path="res://assets/sounds/player/walk_concrete.mp3" id="3_p8fq3"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_t4md0"]
 atlas = ExtResource("1_thhgg")
@@ -29,7 +30,7 @@ animations = [{
 }],
 "loop": true,
 "name": &"walk",
-"speed": 6.0
+"speed": 1.0
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_6l4r7"]
@@ -37,6 +38,7 @@ radius = 3.0
 height = 14.0
 
 [node name="Player" type="CharacterBody2D"]
+z_index = 1
 script = ExtResource("1_u4d0u")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -44,8 +46,13 @@ position = Vector2(0, -8)
 sprite_frames = SubResource("SpriteFrames_vs0n5")
 animation = &"walk"
 autoplay = "walk"
-frame_progress = 0.304083
+frame_progress = 0.224455
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, -7)
 shape = SubResource("CapsuleShape2D_6l4r7")
+
+[node name="WalkSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_p8fq3")
+volume_db = 24.0
+bus = &"SFX"

@@ -2,17 +2,15 @@
 
 [ext_resource type="PackedScene" uid="uid://ctesrtp62l86v" path="res://scenes/player.tscn" id="1_7n4kt"]
 [ext_resource type="Texture2D" uid="uid://cwghrloaxodel" path="res://assets/sprites/terrain/metal_block.png" id="2_44uqm"]
-
-[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_jcnum"]
+[ext_resource type="PackedScene" uid="uid://cgs4hogmck42u" path="res://scenes/music.tscn" id="3_ridio"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_oopkq"]
 texture = ExtResource("2_44uqm")
 0:0/0 = 0
-1:0/0 = 0
-0:1/0 = 0
-1:1/0 = 0
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
 
 [sub_resource type="TileSet" id="TileSet_f6v3a"]
+physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_oopkq")
 
 [node name="Game" type="Node2D"]
@@ -24,14 +22,9 @@ position = Vector2(0, -7)
 zoom = Vector2(4, 4)
 position_smoothing_enabled = true
 
-[node name="StaticBody2D" type="StaticBody2D" parent="."]
-position = Vector2(0, 18)
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
-position = Vector2(0, -1)
-shape = SubResource("WorldBoundaryShape2D_jcnum")
-
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 position = Vector2(0, 17)
-tile_map_data = PackedByteArray("AAD//wAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAACAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAFAAAAAAAAAAAAAAD+/wAAAAAAAAAAAAD9/wAAAAAAAAAAAAD8/wAAAAAAAAAAAAD7/wAAAAAAAAAAAAD6/wAAAAAAAAAAAAD5/wAAAAAAAAAAAAD4/wAAAAAAAAAAAAA=")
+tile_map_data = PackedByteArray("AAD//wAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAACAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAFAAAAAAAAAAAAAAD+/wAAAAAAAAAAAAD9/wAAAAAAAAAAAAD8/wAAAAAAAAAAAAD7/wAAAAAAAAAAAAD6/wAAAAAAAAAAAAD5/wAAAAAAAAAAAAD4/wAAAAAAAAAAAAD1/wAAAAAAAAAAAAD0/wAAAAAAAAAAAADz/wAAAAAAAAAAAADw/wAAAAAAAAAAAADv/wAAAAAAAAAAAADu/wAAAAAAAAAAAADr/wAAAAAAAAAAAADq/wAAAAAAAAAAAADp/wAAAAAAAAAAAADo/wAAAAAAAAAAAADn/wAAAAAAAAAAAADm/wAAAAAAAAAAAADh//3/AAAAAAAAAADh//z/AAAAAAAAAADh//v/AAAAAAAAAADh//r/AAAAAAAAAADh//n/AAAAAAAAAAAGAP//AAAAAAAAAAAHAP//AAAAAAAAAAAIAP//AAAAAAAAAAAJAP7/AAAAAAAAAAAKAP7/AAAAAAAAAAALAP7/AAAAAAAAAAAMAP3/AAAAAAAAAAANAP3/AAAAAAAAAAAOAPz/AAAAAAAAAAAPAPz/AAAAAAAAAAAQAPv/AAAAAAAAAAARAPr/AAAAAAAAAAASAPn/AAAAAAAAAAASAPj/AAAAAAAAAAATAPf/AAAAAAAAAAATAPb/AAAAAAAAAAAUAPX/AAAAAAAAAAAUAPT/AAAAAAAAAAAUAPP/AAAAAAAAAAAVAPL/AAAAAAAAAAAVAPH/AAAAAAAAAAAVAPD/AAAAAAAAAAAVAO//AAAAAAAAAAAVAO7/AAAAAAAAAAAVAO3/AAAAAAAAAADk////AAAAAAAAAADl////AAAAAAAAAADj//7/AAAAAAAAAADl//3/AAAAAAAAAAD7//7/AAAAAAAAAAD6//7/AAAAAAAAAAD5//7/AAAAAAAAAADi//7/AAAAAAAAAADm//3/AAAAAAAAAADo//z/AAAAAAAAAADp//z/AAAAAAAAAADr//v/AAAAAAAAAADs//v/AAAAAAAAAADu//r/AAAAAAAAAADv//r/AAAAAAAAAADx//n/AAAAAAAAAADy//n/AAAAAAAAAADz//n/AAAAAAAAAAD0//n/AAAAAAAAAAD1//n/AAAAAAAAAAD2//n/AAAAAAAAAAA=")
 tile_set = SubResource("TileSet_f6v3a")
+
+[node name="Music" parent="." instance=ExtResource("3_ridio")]
