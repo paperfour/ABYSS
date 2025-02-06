@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://cgs4hogmck42u"]
+
+[ext_resource type="AudioStream" uid="uid://8vdfq74g70as" path="res://assets/sounds/music/guitar_loop.mp3" id="1_86j5u"]
+
+[node name="Music" type="AudioStreamPlayer"]
+stream = ExtResource("1_86j5u")
+autoplay = true
+bus = &"Music"
+parameters/looping = true
