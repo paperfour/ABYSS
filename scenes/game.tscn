@@ -1,13 +1,19 @@
-[gd_scene load_steps=11 format=4 uid="uid://dd47s4uttjihn"]
+[gd_scene load_steps=13 format=4 uid="uid://dd47s4uttjihn"]
 
 [ext_resource type="PackedScene" uid="uid://ctesrtp62l86v" path="res://scenes/player.tscn" id="1_7n4kt"]
 [ext_resource type="Texture2D" uid="uid://cwghrloaxodel" path="res://assets/sprites/terrain/metal_block.png" id="2_44uqm"]
 [ext_resource type="PackedScene" uid="uid://cgs4hogmck42u" path="res://scenes/music.tscn" id="3_ridio"]
+[ext_resource type="PackedScene" uid="uid://caiypkb14nkn6" path="res://scenes/kill_zone.tscn" id="4_fvx6a"]
+
+[sub_resource type="Gradient" id="Gradient_40w76"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ibvw4"]
+gradient = SubResource("Gradient_40w76")
 
 [sub_resource type="Gradient" id="Gradient_iyup1"]
 interpolation_mode = 2
-offsets = PackedFloat32Array(0, 0.6875)
-colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+offsets = PackedFloat32Array(0, 0.428977)
+colors = PackedColorArray(0.988235, 0.988235, 0.988235, 0.556863, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_ur48q"]
 gradient = SubResource("Gradient_iyup1")
@@ -30,25 +36,36 @@ occlusion_layer_0/light_mask = 1
 physics_layer_0/collision_layer = 1
 sources/0 = SubResource("TileSetAtlasSource_oopkq")
 
-[sub_resource type="Gradient" id="Gradient_40w76"]
-
-[sub_resource type="GradientTexture1D" id="GradientTexture1D_ibvw4"]
-gradient = SubResource("Gradient_40w76")
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_wjo3x"]
 
 [node name="Game" type="Node2D"]
+
+[node name="Background" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(-27, -3)
+scale = Vector2(63.5, 599)
+texture = SubResource("GradientTexture1D_ibvw4")
 
 [node name="Player" parent="." instance=ExtResource("1_7n4kt")]
 
 [node name="Camera2D" type="Camera2D" parent="Player"]
-position = Vector2(0, -7)
-zoom = Vector2(4, 4)
+position = Vector2(0, -11)
+limit_bottom = 150
 position_smoothing_enabled = true
 
-[node name="PointLight2D" type="PointLight2D" parent="Player"]
+[node name="PointLight2DShadow" type="PointLight2D" parent="Player"]
 position = Vector2(0, -7)
+scale = Vector2(1.5, 1.5)
 shadow_enabled = true
 texture = SubResource("GradientTexture2D_ur48q")
 texture_scale = 0.75
+
+[node name="PointLight2DAmbient" type="PointLight2D" parent="Player"]
+position = Vector2(2.38419e-07, -7)
+scale = Vector2(1.5, 1.5)
+color = Color(1, 1, 1, 0.627451)
+energy = 1.22
+texture = SubResource("GradientTexture2D_ur48q")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 position = Vector2(0, 17)
@@ -59,11 +76,11 @@ tile_set = SubResource("TileSet_f6v3a")
 
 [node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
 color = Color(0.753984, 0.753984, 0.753984, 1)
-energy = 1.23
+energy = 1.44
 blend_mode = 1
 
-[node name="Background" type="Sprite2D" parent="."]
-z_index = -10
-position = Vector2(0, -0.499996)
-scale = Vector2(63.5, 599)
-texture = SubResource("GradientTexture1D_ibvw4")
+[node name="KillZone" parent="." instance=ExtResource("4_fvx6a")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KillZone"]
+position = Vector2(1, 160)
+shape = SubResource("WorldBoundaryShape2D_wjo3x")
