@@ -1,0 +1,142 @@
+[gd_scene load_steps=13 format=4 uid="uid://dd47s4uttjihn"]
+
+[ext_resource type="PackedScene" uid="uid://bphrotfwcegmh" path="res://scenes/elevator.tscn" id="1_c1476"]
+[ext_resource type="PackedScene" uid="uid://ctesrtp62l86v" path="res://scenes/player.tscn" id="2_ammbw"]
+[ext_resource type="Texture2D" uid="uid://cwghrloaxodel" path="res://assets/sprites/terrain/metal_block.png" id="3_drbjm"]
+[ext_resource type="PackedScene" uid="uid://caiypkb14nkn6" path="res://scenes/kill_zone.tscn" id="4_v2qwj"]
+[ext_resource type="Texture2D" uid="uid://cvajaxqxfaoss" path="res://assets/sprites/barnacle/barnacle_shell.png" id="5_hwhnw"]
+[ext_resource type="PackedScene" uid="uid://detsxrfdtilmu" path="res://scenes/barnacle.tscn" id="6_2x82k"]
+
+[sub_resource type="Gradient" id="Gradient_40w76"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ibvw4"]
+gradient = SubResource("Gradient_40w76")
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_krgho"]
+polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_oopkq"]
+texture = ExtResource("3_drbjm")
+0:0/0 = 0
+0:0/0/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_krgho")
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSet" id="TileSet_f6v3a"]
+occlusion_layer_0/light_mask = 1
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_oopkq")
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_wjo3x"]
+
+[node name="Game" type="Node2D"]
+
+[node name="Background" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(-12, -228)
+scale = Vector2(63.5, 1039.5)
+texture = SubResource("GradientTexture1D_ibvw4")
+
+[node name="Elevator" parent="." instance=ExtResource("1_c1476")]
+position = Vector2(248, -159)
+next_level = "level_1"
+
+[node name="PlayerInstance" parent="." instance=ExtResource("2_ammbw")]
+
+[node name="Camera2D" type="Camera2D" parent="PlayerInstance"]
+position = Vector2(0, -11)
+limit_bottom = 150
+position_smoothing_enabled = true
+position_smoothing_speed = 3.0
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+position = Vector2(0, 17)
+tile_map_data = PackedByteArray("AAADAAEAAAAAAAAAAAACAAEAAAAAAAAAAAABAAEAAAAAAAAAAAAAAAEAAAAAAAAAAAD//wEAAAAAAAAAAAD+/wEAAAAAAAAAAAD9/wEAAAAAAAAAAAD8/wEAAAAAAAAAAAD7/wEAAAAAAAAAAAD6/wEAAAAAAAAAAAD5/wEAAAAAAAAAAAD4/wEAAAAAAAAAAAD3/wEAAAAAAAAAAAABAAIAAAAAAAAAAAAAAAMAAAAAAAAAAAABAAMAAAAAAAAAAAD//wMAAAAAAAAAAAD+/wMAAAAAAAAAAAD9/wMAAAAAAAAAAAD8/wMAAAAAAAAAAAD7/wMAAAAAAAAAAAD6/wMAAAAAAAAAAAD5/wMAAAAAAAAAAAD4/wMAAAAAAAAAAAD3/wMAAAAAAAAAAAD2/wMAAAAAAAAAAAD1/wMAAAAAAAAAAAD2/wEAAAAAAAAAAAD1/wEAAAAAAAAAAADy/wEAAAAAAAAAAAD0/wMAAAAAAAAAAADz/wMAAAAAAAAAAADy/wMAAAAAAAAAAAD+/wIAAAAAAAAAAAD7/wIAAAAAAAAAAAD4/wIAAAAAAAAAAAD1/wIAAAAAAAAAAADy/wIAAAAAAAAAAAACAAIAAAAAAAAAAADv/wMAAAAAAAAAAADu/wMAAAAAAAAAAADv/wEAAAAAAAAAAADt/wMAAAAAAAAAAADv/wIAAAAAAAAAAADs/wIAAAAAAAAAAADs/wEAAAAAAAAAAADr/wEAAAAAAAAAAADq/wEAAAAAAAAAAADp/wEAAAAAAAAAAADs/wMAAAAAAAAAAADr/wMAAAAAAAAAAADq/wMAAAAAAAAAAADp/wMAAAAAAAAAAADy/wAAAAAAAAAAAADv/wAAAAAAAAAAAADz/wAAAAAAAAAAAAD0/wAAAAAAAAAAAAD1/wAAAAAAAAAAAADu/wAAAAAAAAAAAADt/wAAAAAAAAAAAADs/wAAAAAAAAAAAADp/wIAAAAAAAAAAADj/wEAAAAAAAAAAADk/wMAAAAAAAAAAADk/wQAAAAAAAAAAADk/wUAAAAAAAAAAADk/wYAAAAAAAAAAADk/wcAAAAAAAAAAADk/wgAAAAAAAAAAADk/wkAAAAAAAAAAADk/woAAAAAAAAAAADl/wIAAAAAAAAAAADl/wMAAAAAAAAAAADj/wAAAAAAAAAAAADj/wIAAAAAAAAAAADk/wAAAAAAAAAAAADk/wIAAAAAAAAAAADl/wAAAAAAAAAAAADl/wQAAAAAAAAAAADl/wUAAAAAAAAAAADl/wYAAAAAAAAAAADl/wcAAAAAAAAAAADl/wgAAAAAAAAAAADl/wkAAAAAAAAAAADl/woAAAAAAAAAAADm/wAAAAAAAAAAAADm/wEAAAAAAAAAAADm/wIAAAAAAAAAAADb/wEAAAAAAAAAAADb/wIAAAAAAAAAAADb/wMAAAAAAAAAAADb/wUAAAAAAAAAAADb/wcAAAAAAAAAAADd/wQAAAAAAAAAAADd/wYAAAAAAAAAAADe/wIAAAAAAAAAAADa////AAAAAAAAAADa/wAAAAAAAAAAAADb/wAAAAAAAAAAAADb/wQAAAAAAAAAAADb/wYAAAAAAAAAAADb/wgAAAAAAAAAAADc/wAAAAAAAAAAAADc/wIAAAAAAAAAAADc/wQAAAAAAAAAAADc/wYAAAAAAAAAAADc/wgAAAAAAAAAAADd////AAAAAAAAAADd/wAAAAAAAAAAAADd/wIAAAAAAAAAAADe/wAAAAAAAAAAAADe/wQAAAAAAAAAAADe/wYAAAAAAAAAAADe/wgAAAAAAAAAAADf/wAAAAAAAAAAAADf/wEAAAAAAAAAAADf/wIAAAAAAAAAAADf/wMAAAAAAAAAAADf/wQAAAAAAAAAAADf/wUAAAAAAAAAAADf/wYAAAAAAAAAAADf/wcAAAAAAAAAAADf/wgAAAAAAAAAAADg/wAAAAAAAAAAAADW/wAAAAAAAAAAAADX/wAAAAAAAAAAAADY/wAAAAAAAAAAAADZ/wAAAAAAAAAAAADX////AAAAAAAAAADO//7/AAAAAAAAAADV/wAAAAAAAAAAAADU/wAAAAAAAAAAAADK/wAAAAAAAAAAAADU////AAAAAAAAAADI//7/AAAAAAAAAADI////AAAAAAAAAADI/wAAAAAAAAAAAADJ/wAAAAAAAAAAAADY//z/AAAAAAAAAADX//z/AAAAAAAAAADW//z/AAAAAAAAAADW//v/AAAAAAAAAADW//r/AAAAAAAAAADY//v/AAAAAAAAAADY//r/AAAAAAAAAADY//n/AAAAAAAAAADY//j/AAAAAAAAAADW//n/AAAAAAAAAADW//j/AAAAAAAAAADX//r/AAAAAAAAAADX//j/AAAAAAAAAADZ//j/AAAAAAAAAADT//7/AAAAAAAAAADS//7/AAAAAAAAAADF//3/AAAAAAAAAADG//3/AAAAAAAAAADF//7/AAAAAAAAAADG//7/AAAAAAAAAADJ//v/AAAAAAAAAADK//v/AAAAAAAAAADF//z/AAAAAAAAAADE//z/AAAAAAAAAADE//3/AAAAAAAAAADT/wAAAAAAAAAAAADP//7/AAAAAAAAAADN/wAAAAAAAAAAAADO////AAAAAAAAAADN//r/AAAAAAAAAADO//r/AAAAAAAAAADR//n/AAAAAAAAAADS//n/AAAAAAAAAADV//j/AAAAAAAAAADW//X/AAAAAAAAAADX//X/AAAAAAAAAADY//X/AAAAAAAAAADY//T/AAAAAAAAAADY//P/AAAAAAAAAADY//L/AAAAAAAAAADY//H/AAAAAAAAAADW//T/AAAAAAAAAADW//P/AAAAAAAAAADW//L/AAAAAAAAAADW//H/AAAAAAAAAADX//P/AAAAAAAAAADX//H/AAAAAAAAAADY//D/AAAAAAAAAADY/+//AAAAAAAAAADW//D/AAAAAAAAAADW/+//AAAAAAAAAADW/+7/AAAAAAAAAADX/+//AAAAAAAAAADY/+7/AAAAAAAAAADc//f/AAAAAAAAAADd//f/AAAAAAAAAADg//b/AAAAAAAAAADh//b/AAAAAAAAAADk//X/AAAAAAAAAADl//X/AAAAAAAAAADm//X/AAAAAAAAAADn//X/AAAAAAAAAAD7//X/AAAAAAAAAAD8//X/AAAAAAAAAAD9//X/AAAAAAAAAAD+//X/AAAAAAAAAAD///X/AAAAAAAAAAAAAPX/AAAAAAAAAAABAPX/AAAAAAAAAADo//X/AAAAAAAAAADp//X/AAAAAAAAAADq//X/AAAAAAAAAADr//X/AAAAAAAAAADs//X/AAAAAAAAAADt//X/AAAAAAAAAADu//X/AAAAAAAAAADv//X/AAAAAAAAAADw//X/AAAAAAAAAADx//D/AAAAAAAAAADx//X/AAAAAAAAAADy/+3/AAAAAAAAAADy/+7/AAAAAAAAAADy/+//AAAAAAAAAADy//D/AAAAAAAAAADy//X/AAAAAAAAAADz//D/AAAAAAAAAADz//X/AAAAAAAAAAD0//D/AAAAAAAAAAD0//X/AAAAAAAAAAD1//D/AAAAAAAAAAD1//X/AAAAAAAAAAD2//D/AAAAAAAAAAD2//X/AAAAAAAAAAD3//D/AAAAAAAAAAD3//X/AAAAAAAAAAD4/+3/AAAAAAAAAAD4/+7/AAAAAAAAAAD4/+//AAAAAAAAAAD4//D/AAAAAAAAAAD4//X/AAAAAAAAAAD5//D/AAAAAAAAAAD5//X/AAAAAAAAAAD6//X/AAAAAAAAAAACAPX/AAAAAAAAAAADAPX/AAAAAAAAAAAEAPX/AAAAAAAAAAAFAPX/AAAAAAAAAAAGAPX/AAAAAAAAAAAHAPX/AAAAAAAAAAAIAPX/AAAAAAAAAAAJAPX/AAAAAAAAAAAKAPX/AAAAAAAAAAALAPX/AAAAAAAAAAAMAPX/AAAAAAAAAAANAPX/AAAAAAAAAAAOAPX/AAAAAAAAAAAPAPX/AAAAAAAAAAAOAPb/AAAAAAAAAAAOAPf/AAAAAAAAAAAOAPj/AAAAAAAAAAAOAPn/AAAAAAAAAAAOAPr/AAAAAAAAAAAOAPv/AAAAAAAAAAAOAPz/AAAAAAAAAAAOAP3/AAAAAAAAAAAOAP7/AAAAAAAAAAAOAP//AAAAAAAAAAAOAAAAAAAAAAAAAAAOAAEAAAAAAAAAAAAOAAIAAAAAAAAAAAAOAAMAAAAAAAAAAAAPAAMAAAAAAAAAAAAPAAIAAAAAAAAAAAAPAAEAAAAAAAAAAAAPAAAAAAAAAAAAAAAPAP//AAAAAAAAAAAPAP7/AAAAAAAAAAAPAP3/AAAAAAAAAAAPAPz/AAAAAAAAAAAPAPv/AAAAAAAAAAAPAPr/AAAAAAAAAAAPAPn/AAAAAAAAAAAPAPj/AAAAAAAAAAAPAPb/AAAAAAAAAAAPAPf/AAAAAAAAAAAQAPX/AAAAAAAAAAAQAPb/AAAAAAAAAAAQAPf/AAAAAAAAAAAQAPj/AAAAAAAAAAAQAPn/AAAAAAAAAAAQAPr/AAAAAAAAAAAQAPv/AAAAAAAAAAAQAPz/AAAAAAAAAAAQAP3/AAAAAAAAAAAQAP7/AAAAAAAAAAAQAP//AAAAAAAAAAAQAAAAAAAAAAAAAAAQAAEAAAAAAAAAAAAQAAIAAAAAAAAAAAAQAAMAAAAAAAAAAAD///P/AAAAAAAAAAADAPT/AAAAAAAAAAADAPP/AAAAAAAAAADS////AAAAAAAAAADS/wAAAAAAAAAAAADI//v/AAAAAAAAAAD+//P/AAAAAAAAAAD9//T/AAAAAAAAAAAEAPP/AAAAAAAAAAAFAPT/AAAAAAAAAAD///T/AAAAAAAAAADH//7/AAAAAAAAAADJ//7/AAAAAAAAAADK//7/AAAAAAAAAADN////AAAAAAAAAADN//7/AAAAAAAAAADK////AAAAAAAAAAD4////AAAAAAAAAAD5////AAAAAAAAAAD6////AAAAAAAAAAD5//7/AAAAAAAAAAD5//3/AAAAAAAAAAD5//z/AAAAAAAAAAD5//v/AAAAAAAAAAD5//r/AAAAAAAAAAD5//n/AAAAAAAAAAD5//j/AAAAAAAAAAD5//f/AAAAAAAAAAD5//b/AAAAAAAAAAA=")
+tile_set = SubResource("TileSet_f6v3a")
+metadata/_edit_group_ = true
+
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
+color = Color(0.753984, 0.753984, 0.753984, 1)
+energy = 1.44
+blend_mode = 1
+
+[node name="KillZone" parent="." instance=ExtResource("4_v2qwj")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KillZone"]
+position = Vector2(1, 160)
+shape = SubResource("WorldBoundaryShape2D_wjo3x")
+
+[node name="Decorations" type="Node" parent="."]
+
+[node name="EmptyBarnacleShell" type="Sprite2D" parent="Decorations"]
+position = Vector2(-200, 41)
+rotation = 1.57079
+texture = ExtResource("5_hwhnw")
+
+[node name="EmptyBarnacleShell2" type="Sprite2D" parent="Decorations"]
+position = Vector2(-424, 9)
+texture = ExtResource("5_hwhnw")
+
+[node name="EmptyBarnacleShell3" type="Sprite2D" parent="Decorations"]
+position = Vector2(-616, -78)
+rotation = 1.57079
+texture = ExtResource("5_hwhnw")
+
+[node name="EmptyBarnacleShell4" type="Sprite2D" parent="Decorations"]
+position = Vector2(-616, -54)
+rotation = 1.57079
+texture = ExtResource("5_hwhnw")
+
+[node name="EmptyBarnacleShell5" type="Sprite2D" parent="Decorations"]
+position = Vector2(-648, -54)
+rotation = 3.14159
+texture = ExtResource("5_hwhnw")
+
+[node name="EmptyBarnacleShell6" type="Sprite2D" parent="Decorations"]
+position = Vector2(-680, -45)
+rotation = 4.71238
+texture = ExtResource("5_hwhnw")
+
+[node name="EmptyBarnacleShell7" type="Sprite2D" parent="Decorations"]
+position = Vector2(-680, -87)
+rotation = 3.14159
+texture = ExtResource("5_hwhnw")
+
+[node name="EmptyBarnacleShell8" type="Sprite2D" parent="Decorations"]
+position = Vector2(-776, 9)
+rotation = 3.14159
+texture = ExtResource("5_hwhnw")
+
+[node name="EmptyBarnacleShell9" type="Sprite2D" parent="Decorations"]
+position = Vector2(-792, 25)
+rotation = 1.57079
+texture = ExtResource("5_hwhnw")
+
+[node name="EmptyBarnacleShell10" type="Sprite2D" parent="Decorations"]
+position = Vector2(-713, 9)
+rotation = 4.71238
+texture = ExtResource("5_hwhnw")
+
+[node name="Enemies" type="Node" parent="."]
+
+[node name="Barnacle" parent="Enemies" instance=ExtResource("6_2x82k")]
+position = Vector2(-216, -159)
+
+[node name="Barnacle2" parent="Enemies" instance=ExtResource("6_2x82k")]
+position = Vector2(-168, -223)
+rotation = -3.14159
+
+[node name="Barnacle3" parent="Enemies" instance=ExtResource("6_2x82k")]
+position = Vector2(-88, -159)
+rotation = -6.28318
+
+[node name="Barnacle4" parent="Enemies" instance=ExtResource("6_2x82k")]
+position = Vector2(8, -159)
+rotation = -6.28318
+
+[node name="Barnacle5" parent="Enemies" instance=ExtResource("6_2x82k")]
+position = Vector2(24, -159)
+rotation = -6.28318
+
+[node name="Barnacle6" parent="Enemies" instance=ExtResource("6_2x82k")]
+position = Vector2(40, -159)
+rotation = -6.28318

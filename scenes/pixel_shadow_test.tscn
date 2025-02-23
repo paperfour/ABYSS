@@ -1,0 +1,67 @@
+[gd_scene load_steps=10 format=3 uid="uid://dry1qpv852ov4"]
+
+[ext_resource type="Shader" path="res://shaders/game_light.gdshader" id="1_4mux0"]
+[ext_resource type="Texture2D" uid="uid://bib0tgu6fi5w" path="res://icon.svg" id="2_8s1wr"]
+[ext_resource type="Script" path="res://scenes/camera_2d.gd" id="3_p4lgq"]
+[ext_resource type="Script" path="res://scripts/light/pixel_shader.gd" id="3_ror5u"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_1ytq1"]
+shader = ExtResource("1_4mux0")
+shader_parameter/amount = 100
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_xmri5"]
+polygon = PackedVector2Array(14, 0, 0, 0, -3, 10, 8, 14, 16, 7)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vfw5n"]
+shader = ExtResource("1_4mux0")
+shader_parameter/amount = 100
+
+[sub_resource type="Gradient" id="Gradient_i7l0u"]
+interpolation_mode = 2
+offsets = PackedFloat32Array(0, 0.551136)
+colors = PackedColorArray(0.988235, 0.988235, 0.988235, 0.556863, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_0s5wi"]
+gradient = SubResource("Gradient_i7l0u")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[node name="PixelShadowTest" type="Node2D"]
+
+[node name="Camera2D" type="Camera2D" parent="."]
+use_parent_material = true
+position = Vector2(103, 70)
+script = ExtResource("3_p4lgq")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+use_parent_material = true
+position = Vector2(120, 51)
+texture = ExtResource("2_8s1wr")
+
+[node name="PixellatedLightOccluder2D" type="LightOccluder2D" parent="."]
+z_index = 1
+material = SubResource("ShaderMaterial_1ytq1")
+position = Vector2(162, 85)
+occluder = SubResource("OccluderPolygon2D_xmri5")
+
+[node name="PixelShader" type="Sprite2D" parent="."]
+z_index = 2
+material = SubResource("ShaderMaterial_vfw5n")
+position = Vector2(161, 87)
+scale = Vector2(0.947193, 0.886735)
+texture = ExtResource("2_8s1wr")
+script = ExtResource("3_ror5u")
+
+[node name="PointLight2DShadow" type="PointLight2D" parent="."]
+z_index = 3
+use_parent_material = true
+position = Vector2(124, 52)
+shadow_enabled = true
+texture = SubResource("GradientTexture2D_0s5wi")
+
+[node name="Sprite2D2" type="Sprite2D" parent="."]
+z_index = 4
+position = Vector2(363, 68)
+texture = ExtResource("2_8s1wr")
