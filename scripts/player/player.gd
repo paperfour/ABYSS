@@ -34,6 +34,7 @@ var friction = 1
 
 var crouching = false
 
+var pre_land_velocity: Vector2
 var coyote_frames = 5
 
 var step_cooldown = 100
@@ -61,11 +62,12 @@ func _physics_process(delta: float) -> void:
 		in_air = true
 		coyote_frames = max(0, coyote_frames - 1)
 		velocity += get_gravity() * delta
+		pre_land_velocity = abs(velocity)
 	else:
 		if (in_air): 
 			coyote_frames = 5
-			
-			live_light.set_size(1.5, 20)
+			print(pre_land_velocity.y)
+			live_light.set_size(.008 * abs(pre_land_velocity.y), 25)
 		
 		in_air = false
 	
@@ -91,9 +93,9 @@ func _physics_process(delta: float) -> void:
 			jump_sprite.play("jump")
 			
 			
-		velocity.y = JUMP_VELOCITY
+		velocity.y = JUMP_VELOCITY / 1.1 if crouching else JUMP_VELOCITY
 		
-		live_light.set_size(1.1, 15)
+		live_light.set_size(0.75 if crouching else 1.2, 15)
 
 	# Get the input direction and handle the movement/deceleration.
 	var direction := Input.get_axis("move_left", "move_right")
@@ -111,7 +113,7 @@ func _physics_process(delta: float) -> void:
 	if direction:
 		
 		if is_on_floor():
-			live_light.size = move_toward(live_light.size, max(0.3 if crouching else 0.7, live_light.size), 0.5)
+			live_light.size = move_toward(live_light.size, max(0.5 if crouching else 1.1, live_light.size), 0.5)
 
 		
 		velocity.x = direction * (CROUCH_SPEED if crouching else WALK_SPEED)		
@@ -200,35 +202,54 @@ func _on_jump_animation_finished() -> void:
 func _on_jump_frame_changed() -> void:
 	
 	# Im not sure why the frame is changed before the sprite exists, but hey we're all human
-	if typeof(jump_sprite) == TYPE_NIL:
+	if typeof(jump_sprite) == TYPE_NIL or not jump_sprite.visible:
 		return
+	
+	if jump_sprite.frame == 0:
+		arms_fixture.position = Vector2(0, 2 if jump_sprite.animation == "jump" else 7)
+	if jump_sprite.frame == 3:
+		arms_fixture.position = Vector2(0, 0 if jump_sprite.animation == "jump" else 5)
+
 
 func _on_upright_frame_changed() -> void:
 	
-	if typeof(upright_sprite) == TYPE_NIL:
+	if typeof(upright_sprite) == TYPE_NIL or not upright_sprite.visible:
 		return
 		
-	if upright_sprite.visible and upright_sprite.animation == "walk":
+	if upright_sprite.animation == "walk":
 		if upright_sprite.frame == 1:
 			arms_fixture.position = Vector2(0, 1)
 		if upright_sprite.frame == 5:
 			arms_fixture.position = Vector2(0, 0)
+			
+	elif upright_sprite.animation == "idle":
+		if [3, 8, 13, 18].has(upright_sprite.frame):
+			arms_fixture.position = Vector2(0, 1)
+		if [6, 11, 16, 1].has(upright_sprite.frame):
+			arms_fixture.position = Vector2(0, 0)
 	
 	if upright_sprite.visible and is_on_floor() and upright_sprite.animation == "walk" and (upright_sprite.frame == 0 or upright_sprite.frame == 4):
-		live_light.set_size(0.75, 10)
+		live_light.set_size(1.15, 10)
 		
 
 func _on_crouch_transition_frame_changed() -> void:
-	pass # Replace with function body.
 	
+	if typeof(crouch_transition_sprite) == TYPE_NIL or not crouch_transition_sprite.visible:
+		return
+		
+	if crouch_transition_sprite.animation == "crouch":
+		arms_fixture.position = Vector2(0, crouch_transition_sprite.frame)
+	elif crouch_transition_sprite.animation == "uncrouch":
+		arms_fixture.position = Vector2(0, 5 - crouch_transition_sprite.frame)
+
 func _on_crouch_frame_changed() -> void:
 	
-	if typeof(crouch_sprite) == TYPE_NIL:
+	if typeof(crouch_sprite) == TYPE_NIL or not crouch_sprite.visible:
 		return
 	
-	if crouch_sprite.visible and is_on_floor() and crouch_sprite.animation == "walk" and (crouch_sprite.frame == 0 or crouch_sprite.frame == 4):
-		live_light.set_size(0.35, 10)
-		
+	if is_on_floor() and crouch_sprite.animation == "walk" and (crouch_sprite.frame == 0 or crouch_sprite.frame == 4):
+		live_light.set_size(0.55, 10)
+
 # ========== MOUSE HANDLING =============
 
 func point_at_mouse() -> void:

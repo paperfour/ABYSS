@@ -33,10 +33,9 @@ shader = SubResource("Shader_2b2kq")
 [node name="GameLight" type="Node2D"]
 
 [node name="PointLight2DShadow" type="PointLight2D" parent="."]
-color = Color(1, 1, 1, 0.501961)
 blend_mode = 2
 shadow_enabled = true
-shadow_filter_smooth = 0.3
+shadow_filter_smooth = 1.0
 texture = SubResource("GradientTexture2D_i0bkp")
 
 [node name="PointLight2DAmbient" type="PointLight2D" parent="."]
@@ -44,4 +43,4 @@ material = SubResource("ShaderMaterial_8u1os")
 blend_mode = 2
 texture = SubResource("GradientTexture2D_i0bkp")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." groups=["Light"]]

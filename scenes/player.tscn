@@ -937,7 +937,7 @@ size = Vector2(7, 18)
 size = Vector2(7, 11)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o62h2"]
-size = Vector2(7, 18)
+size = Vector2(7, 17)
 
 [node name="Player" type="CharacterBody2D" groups=["Player"]]
 z_index = 1
@@ -967,21 +967,22 @@ gizmo_extents = 1.0
 
 [node name="Upright" type="AnimatedSprite2D" parent="AnimatedSprites"]
 sprite_frames = SubResource("SpriteFrames_vs0n5")
-animation = &"walk"
+animation = &"idle"
 autoplay = "reboot"
+frame = 10
 offset = Vector2(8, -19)
 
 [node name="Jump" type="AnimatedSprite2D" parent="AnimatedSprites"]
 visible = false
 sprite_frames = SubResource("SpriteFrames_mfwag")
-animation = &"jump"
+animation = &"jump_crouch"
 autoplay = "jump"
 offset = Vector2(12, -11)
 
 [node name="CrouchTransition" type="AnimatedSprite2D" parent="AnimatedSprites"]
 visible = false
 sprite_frames = SubResource("SpriteFrames_qv8mk")
-animation = &"uncrouch"
+animation = &"crouch"
 offset = Vector2(12, -24)
 
 [node name="Crouch" type="AnimatedSprite2D" parent="AnimatedSprites"]
@@ -1011,8 +1012,7 @@ shape = SubResource("RectangleShape2D_oesba")
 collision_mask = 3
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AreaTestStand"]
-visible = false
-position = Vector2(0, -9)
+position = Vector2(0, -9.5)
 shape = SubResource("RectangleShape2D_o62h2")
 debug_color = Color(0.799284, 0.37834, 0.495315, 0.42)
 

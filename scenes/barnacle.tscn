@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://detsxrfdtilmu"]
+[gd_scene load_steps=17 format=3 uid="uid://detsxrfdtilmu"]
 
 [ext_resource type="Script" path="res://scripts/barnacle/barnacle.gd" id="1_giq42"]
 [ext_resource type="Texture2D" uid="uid://cvajaxqxfaoss" path="res://assets/sprites/barnacle/barnacle_shell.png" id="1_ngcxu"]
@@ -22,7 +22,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_l50w8"]
-size = Vector2(7, 14)
+size = Vector2(8, 14)
 
 [sub_resource type="Animation" id="Animation_g0lj8"]
 length = 0.001
@@ -69,7 +69,35 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.3, 0.6),
 "transitions": PackedFloat32Array(3.13833, 1, 1),
 "update": 0,
-"values": [Vector2(0, 9), Vector2(0, -3), Vector2(0, 2)]
+"values": [Vector2(0, 8), Vector2(0, -3), Vector2(0, 2)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.596553, 0.7, 0.8, 1),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.174533, 0.174533, -0.174533, 0.174533, -0.174533, 0.174533, -0.174533, 0.174533, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_0i5ee"]
+resource_name = "hidden"
+step = 0.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 8)]
 }
 
 [sub_resource type="Animation" id="Animation_dpxom"]
@@ -94,6 +122,7 @@ _data = {
 "RESET": SubResource("Animation_g0lj8"),
 "alert": SubResource("Animation_u0kug"),
 "emerge": SubResource("Animation_4nkji"),
+"hidden": SubResource("Animation_0i5ee"),
 "idle": SubResource("Animation_dpxom")
 }
 
@@ -120,7 +149,7 @@ script = ExtResource("1_giq42")
 position = Vector2(0, 9)
 sprite_frames = SubResource("SpriteFrames_w8lar")
 animation = &"new_animation"
-frame_progress = 0.139414
+frame_progress = 0.726784
 offset = Vector2(0, -8)
 script = ExtResource("2_uldrw")
 
@@ -128,16 +157,19 @@ script = ExtResource("2_uldrw")
 position = Vector2(0, -9)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Body/KillZone"]
-position = Vector2(-0.5, 1)
+position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_l50w8")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="Body"]
 libraries = {
 "": SubResource("AnimationLibrary_7kwhg")
 }
-autoplay = "idle"
+autoplay = "hidden"
 blend_times = [&"alert", &"alert", 411.429]
 
 [node name="Shell" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_w1j5q")
 offset = Vector2(0, -8)
+
+[connection signal="area_entered" from="Body/KillZone" to="Body" method="_on_kill_zone_area_entered"]
+[connection signal="body_entered" from="Body/KillZone" to="Body" method="_on_kill_zone_body_entered"]

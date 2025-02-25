@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="ABYSS"
-run/main_scene="res://scenes/levels/level_1.tscn"
+run/main_scene="res://scenes/levels/test_level.tscn"
 config/features=PackedStringArray("4.3", "Forward Plus")
 config/icon="res://icon.svg"
 
@@ -33,7 +33,8 @@ project/assembly_name="ABYSS"
 
 [global_group]
 
-Player=""
+Player="The player"
+Light="The bounding boxes of lights"
 
 [input]
 

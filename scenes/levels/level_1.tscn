@@ -44,6 +44,7 @@ next_level = "level_1"
 
 [node name="Camera2D" type="Camera2D" parent="PlayerInstance"]
 position = Vector2(0, -11)
+zoom = Vector2(2, 2)
 limit_bottom = 150
 position_smoothing_enabled = true
 position_smoothing_speed = 3.0
