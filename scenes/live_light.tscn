@@ -1,0 +1,13 @@
+[gd_scene load_steps=3 format=3 uid="uid://ce0e44go80s7d"]
+
+[ext_resource type="PackedScene" uid="uid://imdvt6r1i8ea" path="res://scenes/game_light.tscn" id="1_7sxqf"]
+[ext_resource type="Script" path="res://scripts/light/live_light.gd" id="2_tlhwj"]
+
+[node name="LiveLight" instance=ExtResource("1_7sxqf")]
+script = ExtResource("2_tlhwj")
+
+[node name="PulseTimer" type="Timer" parent="." index="3"]
+process_callback = 0
+one_shot = true
+
+[connection signal="timeout" from="PulseTimer" to="." method="_on_pulse_timer_timeout"]

@@ -1,0 +1,64 @@
+[gd_scene load_steps=8 format=3 uid="uid://bphrotfwcegmh"]
+
+[ext_resource type="Script" path="res://scripts/world/elevator.gd" id="1_5o1sb"]
+[ext_resource type="Texture2D" uid="uid://l2r14sxauoyj" path="res://assets/sprites/elevator/elevator_closed.png" id="1_h6i4g"]
+[ext_resource type="Texture2D" uid="uid://bk4bsca4k41iw" path="res://assets/sprites/elevator/elevator_open.png" id="2_xasrc"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_i31rq"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_h6i4g")
+}],
+"loop": true,
+"name": &"closed",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_xasrc")
+}],
+"loop": true,
+"name": &"open",
+"speed": 5.0
+}]
+
+[sub_resource type="Gradient" id="Gradient_2vucs"]
+offsets = PackedFloat32Array(0, 0.673295)
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_ph8ig"]
+gradient = SubResource("Gradient_2vucs")
+fill = 1
+fill_from = Vector2(0.5, 0.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1svsm"]
+size = Vector2(10, 25)
+
+[node name="Elevator" type="Node2D"]
+script = ExtResource("1_5o1sb")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -16)
+sprite_frames = SubResource("SpriteFrames_i31rq")
+animation = &"open"
+autoplay = "closed"
+
+[node name="PointLight2D" type="PointLight2D" parent="."]
+position = Vector2(0, -26)
+color = Color(6.73831e-07, 0.833486, 0.262495, 1)
+energy = 0.94
+texture = SubResource("GradientTexture2D_ph8ig")
+texture_scale = 0.26
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -13.5)
+shape = SubResource("RectangleShape2D_1svsm")
+
+[node name="Timer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

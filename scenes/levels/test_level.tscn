@@ -1,0 +1,68 @@
+[gd_scene load_steps=12 format=4 uid="uid://q756aj4lvgbl"]
+
+[ext_resource type="PackedScene" uid="uid://bphrotfwcegmh" path="res://scenes/elevator.tscn" id="1_1m6am"]
+[ext_resource type="PackedScene" uid="uid://ctesrtp62l86v" path="res://scenes/player.tscn" id="2_r3clc"]
+[ext_resource type="Texture2D" uid="uid://cwghrloaxodel" path="res://assets/sprites/terrain/metal_block.png" id="3_pkd7m"]
+[ext_resource type="PackedScene" uid="uid://caiypkb14nkn6" path="res://scenes/kill_zone.tscn" id="4_i4n3l"]
+[ext_resource type="PackedScene" uid="uid://detsxrfdtilmu" path="res://scenes/barnacle.tscn" id="6_1ddtf"]
+
+[sub_resource type="Gradient" id="Gradient_40w76"]
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_ibvw4"]
+gradient = SubResource("Gradient_40w76")
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_krgho"]
+polygon = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_oopkq"]
+texture = ExtResource("3_pkd7m")
+0:0/0 = 0
+0:0/0/occlusion_layer_0/polygon = SubResource("OccluderPolygon2D_krgho")
+0:0/0/physics_layer_0/polygon_0/points = PackedVector2Array(-8, -8, 8, -8, 8, 8, -8, 8)
+
+[sub_resource type="TileSet" id="TileSet_f6v3a"]
+occlusion_layer_0/light_mask = 1
+physics_layer_0/collision_layer = 1
+sources/0 = SubResource("TileSetAtlasSource_oopkq")
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_wjo3x"]
+
+[node name="Game" type="Node2D"]
+
+[node name="Background" type="Sprite2D" parent="."]
+z_index = -10
+position = Vector2(-11, -220)
+scale = Vector2(63.5, 1039.5)
+texture = SubResource("GradientTexture1D_ibvw4")
+
+[node name="Elevator" parent="." instance=ExtResource("1_1m6am")]
+position = Vector2(392, 0)
+next_level = "level_1"
+
+[node name="PlayerInstance" parent="." instance=ExtResource("2_r3clc")]
+
+[node name="Camera2D" type="Camera2D" parent="PlayerInstance"]
+position = Vector2(0, -11)
+limit_bottom = 150
+position_smoothing_enabled = true
+position_smoothing_speed = 3.0
+
+[node name="TileMapLayer" type="TileMapLayer" parent="."]
+tile_map_data = PackedByteArray("AAAAAAAAAAAAAAAAAAD//wAAAAAAAAAAAAABAAAAAAAAAAAAAAD+/wAAAAAAAAAAAAACAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAFAAAAAAAAAAAAAAAGAAAAAAAAAAAAAAAHAAAAAAAAAAAAAAAIAAAAAAAAAAAAAAAJAAAAAAAAAAAAAAAKAAAAAAAAAAAAAAAEAPz/AAAAAAAAAAAFAPz/AAAAAAAAAAAGAPz/AAAAAAAAAAAHAPz/AAAAAAAAAAAIAPz/AAAAAAAAAAAJAPz/AAAAAAAAAAAKAPz/AAAAAAAAAAALAPz/AAAAAAAAAAAMAPz/AAAAAAAAAAANAPz/AAAAAAAAAAALAAAAAAAAAAAAAAAMAAAAAAAAAAAAAAANAAAAAAAAAAAAAAAOAAAAAAAAAAAAAAAPAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAARAAAAAAAAAAAAAAASAAAAAAAAAAAAAAATAAAAAAAAAAAAAAAUAAAAAAAAAAAAAAAVAAAAAAAAAAAAAAAWAAAAAAAAAAAAAAAXAAAAAAAAAAAAAAAYAAAAAAAAAAAAAAAZAAAAAAAAAAAAAAAXAAIAAAAAAAAAAAAXAAQAAAAAAAAAAAAXAAYAAAAAAAAAAAAXAAcAAAAAAAAAAAAXAAgAAAAAAAAAAAAXAAkAAAAAAAAAAAAXAAoAAAAAAAAAAAAXAAsAAAAAAAAAAAAXAAwAAAAAAAAAAAAZAAIAAAAAAAAAAAAZAAQAAAAAAAAAAAAZAAYAAAAAAAAAAAAZAAcAAAAAAAAAAAAZAAgAAAAAAAAAAAAZAAkAAAAAAAAAAAAZAAoAAAAAAAAAAAAZAAsAAAAAAAAAAAAZAAwAAAAAAAAAAAAYAAEAAAAAAAAAAAAYAAIAAAAAAAAAAAAYAAMAAAAAAAAAAAAYAAQAAAAAAAAAAAAYAAUAAAAAAAAAAAAYAAYAAAAAAAAAAAAYAAcAAAAAAAAAAAAYAAgAAAAAAAAAAAAYAAkAAAAAAAAAAAAYAAoAAAAAAAAAAAAYAAsAAAAAAAAAAAAYAAwAAAAAAAAAAAAXAAMAAAAAAAAAAAAZAAMAAAAAAAAAAAAZAAEAAAAAAAAAAAAXAAEAAAAAAAAAAAAXAAUAAAAAAAAAAAAZAAUAAAAAAAAAAAAEAPv/AAAAAAAAAAANAPv/AAAAAAAAAAAJAPv/AAAAAAAAAAAIAPv/AAAAAAAAAAAIAPr/AAAAAAAAAAAIAPn/AAAAAAAAAAAIAPj/AAAAAAAAAAAIAPf/AAAAAAAAAAAJAPr/AAAAAAAAAAAJAPn/AAAAAAAAAAAJAPj/AAAAAAAAAAAJAPf/AAAAAAAAAAAJAPb/AAAAAAAAAAAJAPX/AAAAAAAAAAAIAPb/AAAAAAAAAAAIAPX/AAAAAAAAAAAIAPT/AAAAAAAAAAAJAPT/AAAAAAAAAAAJAPP/AAAAAAAAAAAIAPP/AAAAAAAAAAA=")
+tile_set = SubResource("TileSet_f6v3a")
+metadata/_edit_group_ = true
+
+[node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
+color = Color(0.753984, 0.753984, 0.753984, 1)
+energy = 1.44
+blend_mode = 1
+
+[node name="KillZone" parent="." instance=ExtResource("4_i4n3l")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="KillZone"]
+position = Vector2(1, 160)
+shape = SubResource("WorldBoundaryShape2D_wjo3x")
+
+[node name="Barnacle" parent="." instance=ExtResource("6_1ddtf")]
+position = Vector2(152, -48)
+rotation = 3.14159

@@ -1,9 +1,11 @@
-[gd_scene load_steps=13 format=4 uid="uid://dd47s4uttjihn"]
+[gd_scene load_steps=15 format=4 uid="uid://dd47s4uttjihn"]
 
 [ext_resource type="PackedScene" uid="uid://ctesrtp62l86v" path="res://scenes/player.tscn" id="1_7n4kt"]
 [ext_resource type="Texture2D" uid="uid://cwghrloaxodel" path="res://assets/sprites/terrain/metal_block.png" id="2_44uqm"]
 [ext_resource type="PackedScene" uid="uid://cgs4hogmck42u" path="res://scenes/music.tscn" id="3_ridio"]
 [ext_resource type="PackedScene" uid="uid://caiypkb14nkn6" path="res://scenes/kill_zone.tscn" id="4_fvx6a"]
+[ext_resource type="Texture2D" uid="uid://cvajaxqxfaoss" path="res://assets/sprites/barnacle/barnacle_shell.png" id="5_mrgoq"]
+[ext_resource type="PackedScene" uid="uid://detsxrfdtilmu" path="res://scenes/barnacle.tscn" id="6_1wugq"]
 
 [sub_resource type="Gradient" id="Gradient_40w76"]
 
@@ -46,21 +48,21 @@ position = Vector2(-27, -3)
 scale = Vector2(63.5, 599)
 texture = SubResource("GradientTexture1D_ibvw4")
 
-[node name="Player" parent="." instance=ExtResource("1_7n4kt")]
+[node name="PlayerInstance" parent="." instance=ExtResource("1_7n4kt")]
 
-[node name="Camera2D" type="Camera2D" parent="Player"]
+[node name="Camera2D" type="Camera2D" parent="PlayerInstance"]
 position = Vector2(0, -11)
 limit_bottom = 150
 position_smoothing_enabled = true
 
-[node name="PointLight2DShadow" type="PointLight2D" parent="Player"]
+[node name="PointLight2DShadow" type="PointLight2D" parent="PlayerInstance"]
 position = Vector2(0, -7)
 scale = Vector2(1.5, 1.5)
 shadow_enabled = true
 texture = SubResource("GradientTexture2D_ur48q")
 texture_scale = 0.75
 
-[node name="PointLight2DAmbient" type="PointLight2D" parent="Player"]
+[node name="PointLight2DAmbient" type="PointLight2D" parent="PlayerInstance"]
 position = Vector2(2.38419e-07, -7)
 scale = Vector2(1.5, 1.5)
 color = Color(1, 1, 1, 0.627451)
@@ -69,12 +71,13 @@ texture = SubResource("GradientTexture2D_ur48q")
 
 [node name="TileMapLayer" type="TileMapLayer" parent="."]
 position = Vector2(0, 17)
-tile_map_data = PackedByteArray("AAD//wAAAAAAAAAAAAAAAAAAAAAAAAAAAAABAAAAAAAAAAAAAAACAAAAAAAAAAAAAAADAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAFAAAAAAAAAAAAAAD+/wAAAAAAAAAAAAD9/wAAAAAAAAAAAAD8/wAAAAAAAAAAAAD7/wAAAAAAAAAAAAD6/wAAAAAAAAAAAAD5/wAAAAAAAAAAAAD4/wAAAAAAAAAAAAD1/wAAAAAAAAAAAAD0/wAAAAAAAAAAAADz/wAAAAAAAAAAAADw/wAAAAAAAAAAAADv/wAAAAAAAAAAAADu/wAAAAAAAAAAAADr/wAAAAAAAAAAAADq/wAAAAAAAAAAAADp/wAAAAAAAAAAAADo/wAAAAAAAAAAAADn/wAAAAAAAAAAAADm/wAAAAAAAAAAAADh//3/AAAAAAAAAADh//z/AAAAAAAAAADh//v/AAAAAAAAAADh//r/AAAAAAAAAADh//n/AAAAAAAAAAAGAP//AAAAAAAAAAAHAP//AAAAAAAAAAAIAP//AAAAAAAAAAAJAP7/AAAAAAAAAAAKAP7/AAAAAAAAAAALAP7/AAAAAAAAAAAMAP3/AAAAAAAAAAANAP3/AAAAAAAAAAAOAPz/AAAAAAAAAAAPAPz/AAAAAAAAAAAQAPv/AAAAAAAAAAARAPr/AAAAAAAAAAASAPn/AAAAAAAAAAASAPj/AAAAAAAAAAATAPf/AAAAAAAAAAATAPb/AAAAAAAAAAAUAPX/AAAAAAAAAAAUAPT/AAAAAAAAAAAUAPP/AAAAAAAAAAAVAPL/AAAAAAAAAAAVAPH/AAAAAAAAAAAVAPD/AAAAAAAAAAAVAO//AAAAAAAAAAAVAO7/AAAAAAAAAAAVAO3/AAAAAAAAAADk////AAAAAAAAAADl////AAAAAAAAAADj//7/AAAAAAAAAADl//3/AAAAAAAAAAD7//7/AAAAAAAAAAD6//7/AAAAAAAAAAD5//7/AAAAAAAAAADi//7/AAAAAAAAAADm//3/AAAAAAAAAADo//z/AAAAAAAAAADp//z/AAAAAAAAAADr//v/AAAAAAAAAADs//v/AAAAAAAAAADu//r/AAAAAAAAAADv//r/AAAAAAAAAADx//n/AAAAAAAAAADy//n/AAAAAAAAAADz//n/AAAAAAAAAAD0//n/AAAAAAAAAAD1//n/AAAAAAAAAAD2//n/AAAAAAAAAAA=")
+tile_map_data = PackedByteArray("AAD//wAAAAAAAAAAAAAAAAAAAAAAAAAAAAD+/wAAAAAAAAAAAAD9/wAAAAAAAAAAAAD8/wAAAAAAAAAAAAD7/wAAAAAAAAAAAAD6/wAAAAAAAAAAAAD5/wAAAAAAAAAAAAD4/wAAAAAAAAAAAAD1/wAAAAAAAAAAAAD0/wAAAAAAAAAAAADz/wAAAAAAAAAAAADw/wAAAAAAAAAAAADv/wAAAAAAAAAAAADu/wAAAAAAAAAAAADr/wAAAAAAAAAAAADq/wAAAAAAAAAAAADn/wAAAAAAAAAAAADm/wAAAAAAAAAAAADh//3/AAAAAAAAAADh//z/AAAAAAAAAADh//v/AAAAAAAAAADh//r/AAAAAAAAAADh//n/AAAAAAAAAAAVAPL/AAAAAAAAAAAVAPH/AAAAAAAAAAAVAPD/AAAAAAAAAAAVAO//AAAAAAAAAAAVAO7/AAAAAAAAAAAVAO3/AAAAAAAAAADk////AAAAAAAAAADl////AAAAAAAAAADj//7/AAAAAAAAAADl//3/AAAAAAAAAADi//7/AAAAAAAAAADm//3/AAAAAAAAAADo//z/AAAAAAAAAADp//z/AAAAAAAAAADr//v/AAAAAAAAAADs//v/AAAAAAAAAADu//r/AAAAAAAAAADv//r/AAAAAAAAAADx//n/AAAAAAAAAADy//n/AAAAAAAAAADz//n/AAAAAAAAAAD0//n/AAAAAAAAAAD1//n/AAAAAAAAAAD2//n/AAAAAAAAAAD6////AAAAAAAAAAD7////AAAAAAAAAAD3/wAAAAAAAAAAAAD2/wAAAAAAAAAAAAD1//7/AAAAAAAAAAD2//7/AAAAAAAAAAD3//7/AAAAAAAAAAD3//n/AAAAAAAAAAD4//n/AAAAAAAAAAD5//n/AAAAAAAAAAD6//n/AAAAAAAAAAD7//n/AAAAAAAAAAD8//n/AAAAAAAAAAD9//n/AAAAAAAAAAD+//n/AAAAAAAAAAD///n/AAAAAAAAAAAAAPn/AAAAAAAAAAABAPn/AAAAAAAAAAACAPn/AAAAAAAAAAADAPn/AAAAAAAAAAAEAPn/AAAAAAAAAAAFAPn/AAAAAAAAAAAGAPn/AAAAAAAAAAAHAPn/AAAAAAAAAAAIAPn/AAAAAAAAAAAJAPn/AAAAAAAAAAAKAPn/AAAAAAAAAAALAPn/AAAAAAAAAAAMAPn/AAAAAAAAAAD7//X/AAAAAAAAAAD8//X/AAAAAAAAAAD9//X/AAAAAAAAAAD+//X/AAAAAAAAAAD///X/AAAAAAAAAAAAAPX/AAAAAAAAAAABAPX/AAAAAAAAAAACAPX/AAAAAAAAAAADAPX/AAAAAAAAAAD8//T/AAAAAAAAAAD8//P/AAAAAAAAAAD8//L/AAAAAAAAAAACAPT/AAAAAAAAAAACAPP/AAAAAAAAAAACAPL/AAAAAAAAAAA=")
 tile_set = SubResource("TileSet_f6v3a")
 
 [node name="Music" parent="." instance=ExtResource("3_ridio")]
 
 [node name="DirectionalLight2D" type="DirectionalLight2D" parent="."]
+visible = false
 color = Color(0.753984, 0.753984, 0.753984, 1)
 energy = 1.44
 blend_mode = 1
@@ -84,3 +87,11 @@ blend_mode = 1
 [node name="CollisionShape2D" type="CollisionShape2D" parent="KillZone"]
 position = Vector2(1, 160)
 shape = SubResource("WorldBoundaryShape2D_wjo3x")
+
+[node name="EmptyBarnacleShell" type="Sprite2D" parent="."]
+position = Vector2(-144, -23)
+texture = ExtResource("5_mrgoq")
+
+[node name="Barnacle" parent="." instance=ExtResource("6_1wugq")]
+position = Vector2(-56, -143)
+rotation = -3.14159
